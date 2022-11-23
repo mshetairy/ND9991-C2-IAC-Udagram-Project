@@ -3,7 +3,7 @@ This folder provides the code for the "ND9991 - C2- Infrastructure as Code - Dep
 
 ### [Project WebAPP URL](http://udagr-webap-h35criftqy4n-1198731431.us-east-1.elb.amazonaws.com/)
 
-![img]("project_starter\(0) ND IAC Project - Diagram.png")
+![img]((0)%20ND%20IAC%20Project%20-%20Diagram.png)
 
 #### project-network.yml
 CloudFormation code building the cloud infrastructure.
