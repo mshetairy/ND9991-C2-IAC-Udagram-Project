@@ -2,8 +2,48 @@ Parameters:
   EnvironmentName:
       Description: An environment name that will be prefixed to resource names
       Type: String
-
+  S3BucketName:
+      Description: The bucket containing static website files
+      Type: String
+      Default: udagram-b1-246225351847
 Resources:
+  # S3 Bucket Related Resources
+  S3ReadOnlyEC2Role:
+      Type: AWS::IAM::Role
+      Properties:
+        AssumeRolePolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            - Effect: "Allow"
+              Principal:
+                Service:
+                  - "ec2.amazonaws.com"
+              Action:
+                - "sts:AssumeRole"
+  UdagramAppProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties: 
+      Roles:
+        - !Ref S3ReadOnlyEC2Role
+  S3AccessPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: S3AccessPolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:GetObject
+            Resource: !Sub "arn:aws:s3:::${S3BucketName}/*"
+          - Effect: Allow
+            Action:
+              - s3:ListBucket
+              - s3:GetBucketLocation
+            Resource: !Sub "arn:aws:s3:::${S3BucketName}"
+      Roles:
+        - !Ref S3ReadOnlyEC2Role
+
   LBSecGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -54,13 +94,14 @@ Resources:
       UserData:
         Fn::Base64: !Sub |
           #!/bin/bash
-          apt-get update -y
-          apt-get install apache2 -y
+          apt update -y
+          apt install apache2 awscli -y
           systemctl start apache2.service
-          cd /var/www/html
-          echo "it works! Udagram, Udacity" > index.html     
+          systemctl enable apache2.service
+          aws s3 sync s3://${S3BucketName} /var/www/html
       ImageId: ami-0149b2da6ceec4bb0
       InstanceType: t3.small
+      IamInstanceProfile: !Ref UdagramAppProfile
       SecurityGroups:
       - Ref: WebServerSecGroup
       BlockDeviceMappings:

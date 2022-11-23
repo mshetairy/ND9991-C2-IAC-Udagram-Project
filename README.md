@@ -1,7 +1,7 @@
 ### Project Title - Deploy a high-availability web app using CloudFormation
 This folder provides the code for the "ND9991 - C2- Infrastructure as Code - Deploy a high-availability web app using CloudFormation" project. This folder contains the following files:
 
-### [Project WebAPP URL](http://udagr-webap-h35criftqy4n-1198731431.us-east-1.elb.amazonaws.com/)
+### [Project WebAPP URL](http://udagr-webap-8mb3gasp8cra-843478404.us-east-1.elb.amazonaws.com/)
 
 ![img]((0)%20ND%20IAC%20Project%20-%20Diagram.png)
 
