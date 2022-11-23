@@ -18,3 +18,9 @@ CloudFormation code building the cloud servers.
 a JSON file for increasing the generic nature of the YAML code. 
 
 In YAML code, the `${EnvironmentName}` would be substituted with `UdagramProject` accordingly.
+
+## Stack Creation on Windows Terminal
+```
+.\"Supporting Material\create copy.bat" UdagramInfra project-network.yml infra-parameters.json
+.\"Supporting Material\create copy.bat" UdagramServers project-servers.yml server-parameters.json
+```
